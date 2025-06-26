@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package example;
+
+service GreeterService {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHelloStream (HelloRequest) returns (stream HelloReply) {}
+  rpc SayHelloClientStream (stream HelloRequest) returns (HelloReply) {}
+}
+
+service UserService {
+  rpc GetUser (GetUserRequest) returns (User) {}
+  rpc CreateUser (CreateUserRequest) returns (User) {}
+  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+}
+
+message HelloRequest {
+  string name = 1;
+  int32 age = 2;
+}
+
+message HelloReply {
+  string message = 1;
+  int64 timestamp = 2;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  repeated string roles = 4;
+  UserProfile profile = 5;
+}
+
+message UserProfile {
+  string bio = 1;
+  string avatar_url = 2;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  repeated string roles = 3;
+  UserProfile profile = 4;
+}
+
+message ListUsersRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string filter = 3;
+}
+
+message ListUsersResponse {
+  repeated User users = 1;
+  int32 total_count = 2;
+  string next_page_token = 3;
+}
